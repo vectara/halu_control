@@ -164,9 +164,9 @@ class EvaluationModel:
             if util.is_summary_valid(summary):
                 try:
                     if isinstance(summary, str):
-                        score = float(self.model.predict([doc, summary]))
+                        score = float(self.model.predict([doc, summary], show_progress_bar=False))
                     elif isinstance(summary, list):
-                        scores = self.model.predict([[doc, _sum] for _sum in summary])    
+                        scores = self.model.predict([[doc, _sum] for _sum in summary], show_progress_bar=False)    
                         score = float(max(scores))
                     if not isinstance(score, float):
                         logging.warning(f"Score type mismatch: Expected float, got {type(score)}.")
@@ -212,3 +212,17 @@ class EvaluationModel:
         self.hallucination_rate = 100 - self.factual_consistency_rate
 
         return self.factual_consistency_rate
+
+def run_eval(input_csv, output_csv="hhem_eval.csv"):
+    summ = SummaryGenerator()
+    summ.summaries_df = pd.read_csv(input_csv)
+    summ._compute_avg_length()
+    summ._compute_answer_rate()
+    hem = EvaluationModel("vectara/hallucination_evaluation_model")
+    hscore = hem.evaluate_hallucination(summ.summaries_df)
+    hrate = hem.compute_factual_consistency_rate()
+    print("Average Length", summ.avg_length)
+    print("Answer Rate", summ.answer_rate)
+    print("Consistent Rate", hrate)
+    summ.summaries_df.insert(0, "Score", hscore, allow_duplicates=True)
+    summ.summaries_df.to_csv(output_csv, index=False)
