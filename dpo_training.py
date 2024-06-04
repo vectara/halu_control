@@ -24,10 +24,11 @@ if __name__ == "__main__":
     if LORA:
         peft_config = LoraConfig(
             task_type = TaskType.CAUSAL_LM,
-            r = 8,
-            lora_alpha = 8,
+            r = 16,
+            lora_alpha = 16,
             lora_dropout = 0.05,
             inference_mode = False,
+            target_modules = ["q_proj", "k_proj", "v_proj", "o_proj", "gate_proj", "up_proj", "down_proj"],
             bias='none'
         )
     

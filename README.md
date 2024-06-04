@@ -12,3 +12,4 @@ Methods for controlling hallucinations for LLM
 | Mistral-7B-Instruct-v0.1 | WhiteListLogits + num_beam = 10 | 94.6 | 100.0 | 155.6 |
 | Mistral-7B-Instruct-v0.1 | DoLA + temperature = 0.7 + topP=0.95 | 94.5 | 100.0 | 95.5 | 
 | Mistral-7B-Instruct-v0.1 | Greedy + Fava (LLama2-7b) | 93.0 | 99.9 | 113.1 |
+| Mistral-7B-Instruct-v0.1 | DPO + LoRA + Greedy | 95.5 | 99.9 | 110.4 |
