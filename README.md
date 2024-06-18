@@ -11,6 +11,7 @@ Methods for controlling hallucinations for LLM in Summarization
 | Mistral-7B-Instruct-v0.1 | Greedy + DPO(LoRA) | 95.8 | 100.0 | 97.0 |
 | Mistral-7B-Instruct-v0.1 | Greedy + Fava | 93.7 | 100.0 | 93.3 |
 | Mistral-7B-Instruct-v0.1 | DPO(LoRA) + num_beam=10 | 96.9 | 100.0 | 123.7 |
+| Mistral-7B-Instruct-v0.1 | Best_of_N + Temperature=0.7 + n=10 | 99.3 | 100.0 | 89.6 | 
 
 Note: Prompt slightly different from the orginal [HHEM](https://huggingface.co/spaces/vectara/leaderboard) benchmark, causing different numbers.
 
@@ -25,8 +26,12 @@ python -c "from leaderboard import run_eval;run_eval('generated.csv')"
 # Methods
 
 ## Baseline
-- Greedy/Beam Search
+- [Greedy/Beam Search](https://huggingface.co/blog/how-to-generate)
 - Notebook: [1_decoding.ipynb](1_decoding.ipynb)
+
+## Upperbound
+- [Best of N sampling](https://huggingface.co/docs/trl/main/en/best_of_n)
+- Notebook: [5_best_of_n.ipynb](5_best_of_n.ipynb)
 
 ## DoLa: Decoding by Contrasting Layers Improves Factuality in Large Language Models
 - [Paper Link](https://arxiv.org/abs/2309.03883)
