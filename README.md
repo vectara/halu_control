@@ -25,13 +25,12 @@ python -c "from leaderboard import run_eval;run_eval('generated.csv')"
 
 # Methods
 
-## Baseline
-- [Greedy/Beam Search](https://huggingface.co/blog/how-to-generate)
-- Notebook: [1_decoding.ipynb](1_decoding.ipynb)
+## Baselines
+1. [Greedy/Beam Search](https://huggingface.co/blog/how-to-generate)
+  - Notebook: [1_decoding.ipynb](1_decoding.ipynb)
 
-## Upperbound
-- [Best of N sampling](https://huggingface.co/docs/trl/main/en/best_of_n)
-- Notebook: [5_best_of_n.ipynb](5_best_of_n.ipynb)
+2. [Best of N sampling](https://huggingface.co/docs/trl/main/en/best_of_n)
+  - Notebook: [5_best_of_n.ipynb](5_best_of_n.ipynb)
 
 ## DoLa: Decoding by Contrasting Layers Improves Factuality in Large Language Models
 - [Paper Link](https://arxiv.org/abs/2309.03883)
