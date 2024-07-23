@@ -1,6 +1,8 @@
 # halu_control
 Methods for controlling hallucinations for LLM in Summarization
 
+Blog post: https://vectara.com/blog/reducing-hallucinations-in-llms/
+
 # Benchmark settings
 
 | MODEL | Strategy | Consistency Rate | Answer Rate | Average Length |
