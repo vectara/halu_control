@@ -226,3 +226,33 @@ def run_eval(input_csv, output_csv="hhem_eval.csv"):
     print("Consistent Rate", hrate)
     summ.summaries_df.insert(0, "Score", hscore, allow_duplicates=True)
     summ.summaries_df.to_csv(output_csv, index=False)
+
+def run_eval_TT(input_csv, output_csv="hhem_eval.csv"):
+    summ = SummaryGenerator()
+    summ.summaries_df = pd.read_csv(input_csv)
+    summ._compute_avg_length()
+    summ._compute_answer_rate()
+
+    from transformers import T5ForConditionalGeneration, T5Tokenizer
+    model_path = 'google/t5_11b_trueteacher_and_anli'
+    tokenizer = T5Tokenizer.from_pretrained(model_path)
+    model = T5ForConditionalGeneration.from_pretrained(model_path).to("cuda")
+
+    hscore = []
+    for premise, hypothesis in tqdm(zip(summ.summaries_df["source"],
+                                   summ.summaries_df["summary"])):
+        input_ids = tokenizer(
+            f'premise: {premise} hypothesis: {hypothesis}',
+            return_tensors='pt',
+            truncation=True,
+            max_length=2048).input_ids.to("cuda")
+        outputs = model.generate(input_ids)
+        result = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        judgement = result[0] == "1"
+        hscore.append(judgement)
+
+    print("Average Length", summ.avg_length)
+    print("Answer Rate", summ.answer_rate)
+    print("Consistent Rate", sum(hscore) / len(hscore) )
+    summ.summaries_df.insert(0, "Score", hscore, allow_duplicates=True)
+    summ.summaries_df.to_csv(output_csv, index=False)
